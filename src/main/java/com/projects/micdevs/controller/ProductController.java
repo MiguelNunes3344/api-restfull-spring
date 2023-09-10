@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.projects.micdevs.dtos.ProductRecordDto;
 import com.projects.micdevs.entities.Product;
@@ -46,7 +49,6 @@ public class ProductController {
 			for(Product x: list) {
 				Long id = x.getId();
 				x.add(linkTo(methodOn(ProductController.class).findById(id)).withSelfRel());
-				
 			}
 		}
 		return ResponseEntity.ok().body(list);
@@ -81,5 +83,28 @@ public class ProductController {
 		}
 		repository.deleteById(p.get().getId());
 		return ResponseEntity.status(HttpStatus.OK).body("Deleted");
+	}
+	
+	
+	@GetMapping("/index")
+	public ModelAndView returnHtml() {
+		ModelAndView modelAndView = new ModelAndView("index");
+	    return modelAndView;
+    }
+	
+	@GetMapping("/insert")
+	public ModelAndView returnInsert() {
+		ModelAndView modelAndView = new ModelAndView("insert");
+		return modelAndView;
+	}
+	@GetMapping("/update")
+	public ModelAndView returnUpdate() {
+		ModelAndView modelAndView = new ModelAndView("update");
+		return modelAndView;
+	}
+	@GetMapping("/delete")
+	public ModelAndView returnDelete() {
+		ModelAndView modelAndView = new ModelAndView("delete");
+		return modelAndView;
 	}
 }

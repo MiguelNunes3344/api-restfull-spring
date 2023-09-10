@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Product by ID</title>
+</head>
+<body>
+    <h1>Delete Product by ID</h1>
+    
+    <form id="deleteForm">
+        <label for="id">Product ID:</label>
+        <input type="text" id="id" name="id"><br><br>
+        
+        <input type="submit" value="Delete">
+    </form>
+
+    <script>
+        document.getElementById("deleteForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const id = document.getElementById("id").value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("DELETE", `http://localhost:8080/products/${id}`, true);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert("Product deleted successfully!");
+                    } else {
+                        alert("Error deleting product. Please check the ID and try again.");
+                    }
+                }
+            };
+
+            xhr.send();
+        });
+    </script>
+</body>
+</html>

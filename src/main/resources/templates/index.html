@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Produtos</title>
+</head>
+<body>
+    <h1>Lista de Produtos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Valor</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody id="productTableBody">
+           
+        </tbody>
+    </table>
+
+    <script>
+       
+        fetch('http://localhost:8080/products')
+            .then(response => response.json())
+            .then(data => {
+                const productTableBody = document.getElementById('productTableBody');
+                data.forEach(product => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${product.id}</td>
+                        <td>${product.name}</td>
+                        <td>${product.value}</td>
+                        <td><a href="${product.links[0].href}">${product.links[0].rel}</a></td>
+                    `;
+                    productTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching products: ', error);
+            });
+    </script>
+</body>
+</html>
